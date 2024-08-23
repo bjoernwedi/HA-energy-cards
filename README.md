@@ -180,9 +180,11 @@ the **--produce-color** comes from the bottom of this in the card mod
     align_state: right
     entities:
 ```
-**SCALING TRICK** instead of just putting our measurement subject into the graph ( #1 ), I add also the total consumption and the total production into the diagram, with infill and no line. By this all my cards will have the same scale on the dashboard.
+**SCALING TRICK** 
+instead of just putting our measurement subject into the graph #1, I add also the total consumption and the total production into the diagram #2 #3 , with infill and no line. By this all my cards will have the same scale on the dashboard.
 That helps, even tough mini graph card supports min/max boundaries to be always dynamically scaled, but consistent across multiple grpahs.
-````   - entity: sensor.power_state_now
+
+```   - entity: sensor.power_state_now
         show_fill: false
       - entity: sensor.sonnen_produce_kw
         color: '#CCCCCC'
@@ -207,6 +209,7 @@ the **--consume-color** comes from the bottom of this in the card mod
         color: var(--produce-color)
 ```
 the **--produce-color** comes from the bottom of this in the card mod
+the **--state-unavailable-color** unfortunatly we have to set for your desired range of values, because state colors or template colors are not supported (maybe with template_card achievable?)
 ```
     hour24: true
     group: true

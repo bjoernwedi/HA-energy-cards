@@ -41,6 +41,7 @@ Based on the before values just turns into on and off
 ### building the template sensors
 While we had prepared the helper templates, it becomes now time to create template sensors for our values we want to maintain in the coards.
 All my different sensor follow the same style and just new names/referneces:
+
 ```
 template:
   - sensor:
@@ -106,8 +107,8 @@ A full copy of the grid related card you can find under [./grid-power-card-examp
 
 top Line shall always have:
 - Icon, Label, State, Color (dynamic sring from the sensor)
-[```
-](https://github.com/bjoernwedi/HA-energy-cards/blob/main/README.md)type: entities
+```
+type: entities
 entities:
   - type: custom:multiple-entity-row
     entity: sensor.power_state_now

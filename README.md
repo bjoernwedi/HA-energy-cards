@@ -13,7 +13,22 @@ A card having the visual representation of the meter, the days measurement, the 
 
 ### getting the sensors ready
 Before getting started visually, I tried to get the sensor templates ready to maintain all the values, but unfortunatly it went complicated immediate.
-therefore I created some templates:
-
+You can find them under [/custom_templates/energy_templates.jinja](./custom_templates/energy_templates.jinja):
+#### macro map_w_to_kw(sensor, attribute, precision=int(1))
+Is meant to apply a conversion from W to kW for a specific sensors state attribute, with a given precision you like, defaulted to 1.
+but inside you will also find a reference to an manual input helper to reduce blur/noise to have a clean "0" (inactive) state from -/+ input value.
 ```
+{%  
+    macro map_w_to_kw(sensor, attribute, precision=int(1)) %}{% 
+        set raw = state_attr(sensor,attribute)|float(0) %}{% 
+        set min = states('input_number.treshold_w')|float(100) %}{%                     <= the treshold to supress noise around 0
+        if(raw|abs>min) %}{{ ( ( raw / 1000) | round( precision | int( 1 ) ) ) }}{%     <= the comparism before converting
+            else %}{{ float(0) }}{% 
+        endif %}{%  
+    endmacro 
+%}
+```
+#### macro map_w_to_state(sensor, attribute, positive, negative='', neutral='')
+#### macro map_w_state(sensor, positive, negative='', neutral='')
+#### macro map_w_to_availability(sensor, attribute, precision=int(0))
   

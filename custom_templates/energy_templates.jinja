@@ -1,0 +1,39 @@
+{%  
+    macro map_w_to_kw(sensor, attribute, precision=int(1)) %}{% 
+        set raw = state_attr(sensor,attribute)|float(0) %}{% 
+        set min = states('input_number.treshold_w')|float(100) %}{%
+        if(raw|abs>min) %}{{ ( ( raw / 1000) | round( precision | int( 1 ) ) ) }}{% 
+            else %}{{ float(0) }}{% 
+        endif %}{%  
+    endmacro 
+%}
+{%  
+    macro map_w_to_state(sensor, attribute, positive, negative='', neutral='') %}{% 
+        set raw = state_attr(sensor,attribute)|float(0) %}{% 
+        set min = states('input_number.treshold_w')|float(100) %}{% 
+        if(raw|abs<min) %}{{ neutral }}{% 
+            elif(raw>min) %}{{ positive }}{% 
+            else %}{{ negative }}{% 
+        endif %}{% 
+    endmacro 
+%}
+{%  
+    macro map_w_state(sensor, positive, negative='', neutral='') %}{% 
+        set raw = states(sensor)|float(0) %}{% 
+        set min = states('input_number.treshold_w')|float(100) %}{% 
+        if(raw|abs<min) %}{{ neutral }}{% 
+            elif(raw>min) %}{{ positive }}{% 
+            else %}{{ negative }}{% 
+        endif %}{% 
+    endmacro 
+%}
+{%  
+    macro map_w_to_availability(sensor, attribute, precision=int(0)) %}{% 
+        set raw = state_attr(sensor,attribute)|float(0) %}{% 
+        set min = states('input_number.treshold_w')|float(100) %}{% 
+        set val = ( ( raw / 1000) | round( precision | int( 1 ) ) ) %}{% 
+        if(val==0) %}off{% 
+            else %}on{% 
+        endif %}{% 
+    endmacro 
+%}

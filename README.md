@@ -33,7 +33,8 @@ but inside you will also find a reference to an manual input helper to reduce bl
 Is almost the same as above, but converts a state attribute of an entity into positive, negative and normalized neutral values/strings to map negative, positive and neutral to state labels.
 #### macro map_w_state(sensor, positive, negative='', neutral='')
 Is the same, but is made for an entity state and not for an entity's attribute state.
-#### macro map_w_to_availability(sensor, attribute, precision=int(0))Based on the before values just turns into on and off
+#### macro map_w_to_availability(sensor, attribute, precision=int(0))
+Based on the before values just turns into on and off
 
 # STEP 2 - template SENSORs
 ### building the template sensors

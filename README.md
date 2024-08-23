@@ -1,5 +1,6 @@
 # HA-energy-cards
 my way to clean graph cards without specific development based on default custom cards
+![example](./power-dashbaord.png)
 
 ## Where it started
 While I was applying photovoltaik to my house and started also with a battery for the nights, I had home assistant already installed for many devices, but also smart gardening and irrigation.

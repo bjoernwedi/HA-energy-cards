@@ -95,7 +95,8 @@ For my battery I went even more crazy for the icon:
 ```
 
 # STEP 3 - Entities CARDS
-With some frequently used lovelace components
+With some frequently used lovelace components.
+A full copy of the grid related card you can find under [./grid-power-card-example](./grid-power-card-example)
 
 ### The finally I placed the first card into my locelace frontend using:
 - custom:multiple-entity-row

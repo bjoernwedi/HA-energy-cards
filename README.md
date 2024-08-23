@@ -47,7 +47,9 @@ template:
 ```
 So far nothing special, but now comes the tricky part.
 We want to have friendly name to become dynamic, icon to change according to state, availability to change, and color being availacle.
-Therefore remember the jinja templates from ontop:
+Therefore remember the jinja templates from ontop. we always define the attribute with template, import the macro and make use of it:
+
+For map_w_to_state or map_w_to_kw:
 ```
         name: >
             {% from 'energy_templates.jinja' import map_w_to_state %}{{ map_w_to_state('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W','Einspeisung','Netzbezug','Selbstversorgung') }}
@@ -55,6 +57,9 @@ Therefore remember the jinja templates from ontop:
             {% from 'energy_templates.jinja' import map_w_to_state %}{{ map_w_to_state('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W','mdi:home-export-outline','mdi:home-import-outline','mdi:home-lightning-bolt-outline') }}
         state: > 
             {% from 'energy_templates.jinja' import map_w_to_kw %}{{ map_w_to_kw('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W') }}
+```
+Or even other conversion ( ** note olor being one of the state attributes:** home assistant has default device category icn colors with available and unavailable colors, but we want to have positive/neutral/negative, so we maintain the state attribute we have to reference to in card_mod card)
+```
         availability: >
             {{ iif(has_value('sensor.sonnen_original_messwerte_statusapi'),'on','off') }}
         attributes: 

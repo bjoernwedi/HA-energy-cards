@@ -11,6 +11,7 @@ Finally the idea for a new dashboard with default layout tiles was born to bring
 
 A card having the visual representation of the meter, the days measurement, the last days one, the actual value, a specific dynamic state, icon and color.
 
+# STEP 1 - Utility MARCOs
 ### getting the sensors ready
 Before getting started visually, I tried to get the sensor templates ready to maintain all the values, but unfortunatly it went complicated immediate.
 You can find them under [/custom_templates/energy_templates.jinja](./custom_templates/energy_templates.jinja):
@@ -34,6 +35,7 @@ Is almost the same as above, but converts a state attribute of an entity into po
 Is the same, but is made for an entity state and not for an entity's attribute state.
 #### macro map_w_to_availability(sensor, attribute, precision=int(0))Based on the before values just turns into on and off
 
+# STEP 2 - template SENSORs
 ### building the template sensors
 While we had prepared the helper templates, it becomes now time to create template sensors for our values we want to maintain in the coards.
 All my different sensor follow the same style and just new names/referneces:
@@ -91,8 +93,10 @@ For my battery I went even more crazy for the icon:
                 endif %}
 ```
 
+# STEP 3 - Entities CARDS
+With some frequently used lovelace components
 
-The finally I placed the first card into my locelace frontend using:
+### The finally I placed the first card into my locelace frontend using:
 - custom:multiple-entity-row
 - custom:mini-graph-card
 - card_mod

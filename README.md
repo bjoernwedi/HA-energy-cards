@@ -107,7 +107,6 @@ entities:
     name: Netzbetriebsmodus
     unit: false
     secondary_info:
-```
       attribute: friendly_name
 ```
 friendly_name comes from the template sensor's **name**

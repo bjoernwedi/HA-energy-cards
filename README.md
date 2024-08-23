@@ -69,3 +69,24 @@ Or even other conversion ( ** note olor being one of the state attributes:** hom
                 {{ state_attr('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W') | int(0) }}
             label: "power_state_now"
 ```
+For my battery I went even more crazy for the icon:
+```
+      - unique_id: "store_state_now"
+        unit_of_measurement: kW
+        device_class: power
+        state_class: measurement
+        name: >
+            {% from 'energy_templates.jinja' import map_w_to_state %}{{ map_w_to_state('sensor.sonnen_original_messwerte_statusapi','Pac_total_W','Erzeugung','Speicherung','Standby') }}
+        state: > 
+            {% from 'energy_templates.jinja' import map_w_to_kw %}{{ map_w_to_kw('sensor.sonnen_original_messwerte_statusapi','Pac_total_W') }}
+        icon: >
+            {%  from 'energy_templates.jinja' import map_w_to_kw %}{% 
+                from 'energy_templates.jinja' import map_w_to_state %}{% 
+                set val = state_attr('sensor.sonnen_original_messwerte_statusapi','USOC') | int(0) 
+            %}mdi:battery{{map_w_to_state('sensor.sonnen_original_messwerte_statusapi','Pac_total_W','','-charging','')}}{% 
+                if(val<25) %}-outline{% 
+                    elif(val<50) %}-low{% 
+                    elif(val<75) %}-medium{% 
+                    else %}-high{% 
+                endif %}
+```

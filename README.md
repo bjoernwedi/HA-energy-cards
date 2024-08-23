@@ -33,3 +33,34 @@ Is almost the same as above, but converts a state attribute of an entity into po
 #### macro map_w_state(sensor, positive, negative='', neutral='')
 Is the same, but is made for an entity state and not for an entity's attribute state.
 #### macro map_w_to_availability(sensor, attribute, precision=int(0))Based on the before values just turns into on and off
+
+### building the template sensors
+While we had prepared the helper templates, it becomes now time to create template sensors for our values we want to maintain in the coards.
+All my different sensor follow the same style and just new names/referneces:
+```
+template:
+  - sensor:
+      - unique_id: "power_state_now"              <= to be able to manage them in UI, you shall give them unique ids
+        unit_of_measurement: kW                   <= units simplify classifications
+        device_class: power                       <= categories help either
+        state_class: measurement                  <= and we have measurements here
+```
+So far nothing special, but now comes the tricky part.
+We want to have friendly name to become dynamic, icon to change according to state, availability to change, and color being availacle.
+Therefore remember the jinja templates from ontop:
+```
+        name: >
+            {% from 'energy_templates.jinja' import map_w_to_state %}{{ map_w_to_state('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W','Einspeisung','Netzbezug','Selbstversorgung') }}
+        icon: >
+            {% from 'energy_templates.jinja' import map_w_to_state %}{{ map_w_to_state('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W','mdi:home-export-outline','mdi:home-import-outline','mdi:home-lightning-bolt-outline') }}
+        state: > 
+            {% from 'energy_templates.jinja' import map_w_to_kw %}{{ map_w_to_kw('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W') }}
+        availability: >
+            {{ iif(has_value('sensor.sonnen_original_messwerte_statusapi'),'on','off') }}
+        attributes: 
+            color: >
+                {% from 'energy_templates.jinja' import map_w_to_state %}{{ map_w_to_state('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W','#8BC34A','#FF5722','var(--state-unavailable-color)') }}
+            watts: >
+                {{ state_attr('sensor.sonnen_original_messwerte_statusapi','GridFeedIn_W') | int(0) }}
+            label: "power_state_now"
+```

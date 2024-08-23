@@ -262,6 +262,7 @@ We are replacing the already available CSS variables for the default references:
 - --icon-primary-color
 - --primary-text-color
 - --secondary-text-color
+  
 In addition for the graph we are creating our own variables for coloring:
 - --produce-color
 - --consume-color

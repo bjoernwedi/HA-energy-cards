@@ -12,6 +12,8 @@ Finally the idea for a new dashboard with default layout tiles was born to bring
 A card having the visual representation of the meter, the days measurement, the last days one, the actual value, a specific dynamic state, icon and color.
 
 ### getting the sensors ready
+Before getting started visually, I tried to get the sensor templates ready to maintain all the values, but unfortunatly it went complicated immediate.
+therefore I created some templates:
 
-´´´
-efef
+```
+  

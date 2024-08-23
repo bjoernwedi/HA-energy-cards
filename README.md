@@ -90,3 +90,177 @@ For my battery I went even more crazy for the icon:
                     else %}-high{% 
                 endif %}
 ```
+
+
+The finally I placed the first card into my locelace frontend using:
+- custom:multiple-entity-row
+- custom:mini-graph-card
+- card_mod
+
+top Line shall always have:
+- Icon, Label, State, Color (dynamic sring from the sensor)
+```
+type: entities
+entities:
+  - type: custom:multiple-entity-row
+    entity: sensor.power_state_now
+    name: Netzbetriebsmodus
+    unit: false
+    secondary_info:
+```
+      attribute: friendly_name
+```
+friendly_name comes from the template sensor's **name**
+```
+    state_color: true
+    color: var(--secondary-text-color)
+```
+the **--secondary-text-color** comes from the bottom of this in the card mod
+```
+    styles:
+      color: '#FFFFFF !important'
+      background-color: var(--icon-primary-color)
+```
+the **--icon-text-color** comes from the bottom of this in the card mod
+```
+      border-radius: 4px
+      box-shadow: '0px 0px 2px #BBBBBB'
+      height: auto
+      padding: 8px 4px
+      margin-right: 4px
+      font-size: 28px
+      font-weight: 500
+      font-stretch: condensed
+      letter-spacing: '-1px'
+      min-width: 50px
+      text-align: center
+      line-height: 16px !important
+      z-index: 1;
+    entities:
+      - entity: sensor.sonnen_power_consume_kwhd
+```
+  I also reference some utility meters for the daily consumption
+```
+        name: Netzbezug
+        format: precision1
+        styles:
+          text-align: right
+          width: 60px
+          color: var(--consume-color) ;
+```
+the **--consume-color** comes from the bottom of this in the card mod
+```
+        hide_if:
+          below: 0.5
+      - entity: sensor.sonnen_power_produce_kwhd
+```
+  I also reference some utility meters for the daily production
+```
+        name: Einspeisung
+        format: precision1
+        styles:
+          text-align: right
+          width: 60px
+          color: var(--produce-color);
+```
+the **--produce-color** comes from the bottom of this in the card mod
+```
+        hide_if:
+          below: 0.5
+  - type: custom:mini-graph-card
+    align_header: left
+    align_icon: left
+    align_state: right
+    entities:
+      - entity: sensor.power_state_now
+        show_fill: false
+      - entity: sensor.sonnen_produce_kw
+        color: '#CCCCCC'
+        show_line: false
+      - entity: sensor.sonnen_consume_kw
+        color: '#BBBBBB'
+        show_line: false
+    color_thresholds_transition: hard
+    color_thresholds:
+      - value: -0.15
+        color: var(--consume-color)
+```
+the **--consume-color** comes from the bottom of this in the card mod
+```
+      - value: -0.149
+        color: var(--state-unavailable-color)
+      - value: 0
+        color: var(--state-unavailable-color)
+      - value: 0.149
+        color: var(--state-unavailable-color)
+      - value: 0.15
+        color: var(--produce-color)
+```
+the **--produce-color** comes from the bottom of this in the card mod
+```
+    hour24: true
+    group: true
+    line_width: 2
+    aggregate_func: median
+    points_per_hour: 30
+    hours_to_show: 12
+    font-size: 120
+    decimals: 1
+    height: 150
+    show:
+      name: false
+      icon: false
+      state: false
+      legend: false
+    card_mod:
+      style: |
+        ha-card {
+          background-color: rgba(255,255,255,0.0);
+          border: 0px !important;
+          border-radius: 0px !important;
+          font-size: 12px !important;
+          line-height: 12px;
+          padding: 0px !important;
+        }
+card_mod:
+  style: |
+    ha-card {
+      padding-top: -0px;
+      background-color: rgba(255,255,255,0.5);
+      border: 0px !important;
+      border-radius: 6px !important;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      font-weight: 600;
+      font-size: 10px;
+      font-stretch: condensed;
+      letter-spacing: 0px;
+      line-height: 14px;
+```
+HERE is now the ***coloring MAGIC**
+```
+      --icon-primary-color: {{ state_attr('sensor.power_state_now','color') }};
+      --primary-text-color: {{ state_attr('sensor.power_state_now','color') }};
+      --secondary-text-color: rgb(0,0,0,0.6);
+      --consume-color: {{ iif(states('sensor.power_state_now')|float(0)<0,state_attr('sensor.power_state_now','color'),'var(--state-unavailable-color)') }};
+      --produce-color: {{ iif(states('sensor.power_state_now')|float(0)>0,state_attr('sensor.power_state_now','color'),'var(--state-unavailable-color)') }};
+    }
+```
+We are replacing the already available CSS variables for the default references:
+- --icon-primary-color
+- --primary-text-color
+- --secondary-text-color
+In addition for the graph we are creating our own variables for coloring:
+- --produce-color
+- --consume-color
+```
+    ha-card #states.card-content {
+      padding: 0px;
+    }
+    ha-card #states > * {
+      margin-bottom: 0px;
+      margin-top: -40px;
+    }
+    ha-card .type-custom-multiple-entity-row {
+      padding-right: 4px;
+    }
+```

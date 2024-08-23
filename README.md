@@ -106,8 +106,8 @@ A full copy of the grid related card you can find under [./grid-power-card-examp
 
 top Line shall always have:
 - Icon, Label, State, Color (dynamic sring from the sensor)
-```
-type: entities
+[```
+](https://github.com/bjoernwedi/HA-energy-cards/blob/main/README.md)type: entities
 entities:
   - type: custom:multiple-entity-row
     entity: sensor.power_state_now
@@ -178,7 +178,10 @@ the **--produce-color** comes from the bottom of this in the card mod
     align_icon: left
     align_state: right
     entities:
-      - entity: sensor.power_state_now
+```
+**SCALING TRICK** instead of just putting our measurement subject into the graph ( #1 ), I add also the total consumption and the total production into the diagram, with infill and no line. By this all my cards will have the same scale on the dashboard.
+That helps, even tough mini graph card supports min/max boundaries to be always dynamically scaled, but consistent across multiple grpahs.
+````   - entity: sensor.power_state_now
         show_fill: false
       - entity: sensor.sonnen_produce_kw
         color: '#CCCCCC'

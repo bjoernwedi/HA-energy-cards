@@ -10,3 +10,8 @@ Due to the need of some reconstruction in my power distribution, I had the oppor
 Finally the idea for a new dashboard with default layout tiles was born to bring all these different digital inputs together.
 
 A card having the visual representation of the meter, the days measurement, the last days one, the actual value, a specific dynamic state, icon and color.
+
+### getting the sensors ready
+
+´´´
+efef
